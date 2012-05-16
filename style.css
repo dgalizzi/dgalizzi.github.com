@@ -1,0 +1,122 @@
+/*
+* {
+  margin: 0;
+  padding: 0;
+}
+*/
+
+body {
+  font-family: Georgia, Palatino, sans-serif;
+
+  background: #fafafa;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: #f60;
+}
+
+a:hover {
+  color: #fb0;
+}
+
+#main {
+  margin: auto;
+  width: 600px;
+}
+
+#main h1 {
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 20px;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+#main h2 {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 20px;
+  letter-spacing: -1px;
+}
+
+#main p {
+  margin: 20px 0;
+  line-height: 20px;
+}
+
+#main ul li {
+  list-style-type: square;
+  padding-top: 05px;
+}
+
+/* Top nav menu */
+#top-nav ul li {
+  display: inline;
+  padding-left: 35px;
+  font-size: 20px;
+}
+
+#yield {
+  text-align:justify;
+  padding-top: 25px;
+}
+
+/* Code box */
+/*
+pre {
+  font-family: 'Comfortaa', Georgia, Palatino, Times, 'Times New Roman', sans-serif;
+  padding-left: 1em;
+  margin-left: 25px;
+  width: 800px;
+  border-left-style: dotted;
+  border-width: 1px;
+}
+
+pre.prettyprint{
+}
+*/
+
+
+/* desert scheme ported from vim to google prettify */
+pre.prettify { display: block; }
+pre .nocode { background-color: none; color: #000}
+pre .str { color: #004f4f } /* string  - pink */
+pre .kwd { color: #0f3963; font-weight: bold }
+pre .com { color: #783334 } /* comment - skyblue */
+pre .typ { color: #570357 } /* type    - lightgreen */
+pre .lit { color: #321383 } /* literal - darkred */
+pre .pun { color: #000 }    /* punctuation */
+pre .pln { color: #000f10}    /* plaintext */
+pre .tag { color: #0f1a73; font-weight: bold } /* html/xml tag    - lightyellow */
+pre .atn { color: #414894; font-weight: bold } /* attribute name  - khaki */
+pre .atv { color: #005f5f } /* attribute value - pink */
+pre .dec { color: #570457 } /* decimal         - lightgreen */
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0; color: #515151 } /* IE indents via margin-left */
+
+/*
+li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: none }
+li.L1,li.L3,li.L5,li.L7,li.L9 { }
+*/
+
+@media print {
+  pre.prettify { background-color: none; }
+  pre .str, code .str { color: #060 }
+  pre .kwd, code .kwd { color: #006; font-weight: bold }
+  pre .com, code .com { color: #600; font-style: italic }
+  pre .typ, code .typ { color: #404; font-weight: bold }
+  pre .lit, code .lit { color: #044 }
+  pre .pun, code .pun { color: #440 }
+  pre .pln, code .pln { color: #000 }
+  pre .tag, code .tag { color: #006; font-weight: bold }
+  pre .atn, code .atn { color: #404 }
+  pre .atv, code .atv { color: #060 }
+}
+
