@@ -182,7 +182,7 @@ double pavg(const vector&lt;double&gt; &amp;v)
 <pre><code>#pragma parallel for reduction(operator:total_accumulator)
 </code></pre>
 
-<p>This way OpenMP will take care of calculating a local sum for each thread and accumulating it in total_accumulator. Using the reduction clause, the final code is:</p>
+<p>This way OpenMP will take care of calculating a local sum for each thread and accumulating it in total_accumulator (the iterations will not be divided as we manually did in the previous code, check the <a href="https://computing.llnl.gov/tutorials/openMP/#DO">schedule</a> clause for more information). Using the reduction clause, the final code is:</p>
 
 <pre><code class="prettyprint linenums">#include &lt;omp.h&gt;
 #include &lt;iostream&gt;

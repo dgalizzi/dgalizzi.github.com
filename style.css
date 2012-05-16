@@ -18,7 +18,7 @@ a {
 
 a:link,
 a:visited {
-  color: #f60;
+  color: #940;
 }
 
 a:hover {
@@ -60,6 +60,9 @@ a:hover {
   display: inline;
   padding-left: 35px;
   font-size: 20px;
+}
+#top-nav a {
+  color: #f60;
 }
 
 #yield {
