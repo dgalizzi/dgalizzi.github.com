@@ -61,8 +61,14 @@ a:hover {
   padding-left: 35px;
   font-size: 20px;
 }
-#top-nav a {
+#top-nav a:link {
   color: #f60;
+}
+#top-nav a:visited {
+  color: #f60;
+}
+#top-nav a:hover{
+  color: #fb0;
 }
 
 #yield {
@@ -71,19 +77,13 @@ a:hover {
 }
 
 /* Code box */
-/*
 pre {
-  font-family: 'Comfortaa', Georgia, Palatino, Times, 'Times New Roman', sans-serif;
   padding-left: 1em;
   margin-left: 25px;
   width: 800px;
-  border-left-style: dotted;
+  border-left-style: solid;
   border-width: 1px;
 }
-
-pre.prettyprint{
-}
-*/
 
 
 /* desert scheme ported from vim to google prettify */

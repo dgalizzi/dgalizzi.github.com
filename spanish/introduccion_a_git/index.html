@@ -1,0 +1,721 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <head>
+    <meta charset="utf-8">
+    <title>dgalizzi's ~/ Introducción a Git</title>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'> -->
+    <script type="text/javascript" src="/prettify.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css" media="screen">
+    <meta name="generator" content="nanoc 3.3.6">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="main">
+      dgalizzi's ~/
+      <div id="top-nav">
+        <nav>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/selections/">Selections</a></li>
+          <li><a href="/spanish/">Spanish</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+        </nav>
+      </div>
+      <div id="yield">
+        <h1>Git - Sistema de control de versión</h1>
+
+<p>Control de versión consiste justamente en eso, en ir guardando todos los
+cambios que se hacen en un proyecto determinado. Entonces en cualquier
+momento podemos volver a una versión anterior, para lo que necesitemos.</p>
+
+<p>Esto no es sólamente útil para programadores; a un músico, un diseñador,
+o cualquier tipo de artista que trabaje en la computadora le puede
+resultar muy útil dejar todos los cambios guardados. Si no te gustó
+algún cambio, podés volver en cualquier momento, a cualquier lugar,
+realizar comparaciones, etc. Cualquiera que maneje archivos que van
+cambiando con el tiempo, puede que le resulte muy útil utilizar este
+sistema.</p>
+
+<p>El kernel de linux se mantuvo inicialmente a base de parches y paquetes
+de archivos. Uno realizaba algún cambio y mandaba el parche (archivo con
+las diferencias a la versión modificada) al mantenedor oficial.
+Obviamente este sistema para colaborar es muy incómodo, y muy difícil de
+mantener cuando hay muchos colaboradores y muchos cambios.</p>
+
+<p>Un método muy <em>crudo</em> para realizar control de versión es crear
+distintas carpetas cada vez que se considera que se ha realizado un
+cambio significativo. Se podría nombrar cada carpeta con la fecha así se
+mantiene ordenado lo mejor posible.</p>
+
+<p>El problema de este método es que se vuelve muy incómodo y desordenado.
+Además hay muchas posibilidades de error, nos podemos llegar a perder y
+modificar una versión equivocada, por ejemplo.</p>
+
+<p>Lo primero que se realizó para tratar con esto son unos sistemas de
+control que van guardando en una base de datos cada versión, de forma
+local. Este programa va calculando las diferencias entre cada versión,
+entonces puede generar la versión que se desee.</p>
+
+<p>El problema de este sistema es que no se puede trabajar en equipo, ya
+que la base de datos es local. Para resolver esto, se diseñaron los
+sistemas de control de versión <strong>centralizados</strong>.</p>
+
+<h2>Sistemas centralizados</h2>
+
+<p>Estos sistemas trabajan en un servidor particular, donde todas las
+personas con acceso al servidor pueden conectarse y colaborar (como
+Subversion, CVS y otros). Cada uno puede hacer sus propias
+modificaciones, ver las modificaciones de los demás, etc. De esta forma
+se lleva mucho mayor control a la hora de trabajar en equipo, cada uno
+sabe quién hizo qué, y cuando.</p>
+
+<p>La desventaja de este sistema, es justamente que corra en un servidor en
+particular y que todo tenga que realizarse al servidor. Primero que por
+cada <em>commit</em> que se realice hay que conectarse a un servidor externo y
+la latencia se siente. El segundo problema y más importante es que
+cuando el servidor se cae nadie puede contribuir hasta que vuelva a
+subir.</p>
+
+<p>Otro problema es que nunca se debe guardar todo un proyecto en un único
+lugar, si bien esto se puede resolver con backups constantes, puede
+resultar muy pesado realizarlos.</p>
+
+<h2>Sistemas distribuídos</h2>
+
+<p>Con los sistemas distribuídos (como Git, Mercurial, Bazaar) cuando uno
+se conecta al servidor para obtener el proyecto, no sólo obtiene una
+copia instantánea de la versión actual, sino <strong>todo</strong> el repositorio. Es
+decir, uno puede trabajar localmente de forma completa, de esta forma se
+elimina latencia logrando trabajar más rápido.</p>
+
+<p>Aún más importante, con este sistema <strong>cada</strong> colaborador tiene un
+backup completo del repositorio, y tampoco hay que esperar a que el
+servidor suba para ir realizando los <em>commit</em> necesarios.</p>
+
+<h2>Git</h2>
+
+<p>La comunidad desarrolladora de linux eventualmente necesitó un programa
+especialmente diseñado para el kernel (un proyecto inmenso con mucha
+colaboración), entonces decidieron crear su propia herramienta, que
+llamaron <a href="http://git-scm.com/">Git</a>.</p>
+
+<p>Los objetivos para Git eran (y siguen siendo):</p>
+
+<ul>
+<li>  Velocidad</li>
+<li>  Simple diseño</li>
+<li>  Gran soporte para desarrollo no lineal (miles de ramas de desarrollo
+paralelas)</li>
+<li>  Distribuído</li>
+<li>  Capaz de manejar proyectos grandes</li>
+</ul>
+
+<p>Git nació en el 2005 y desde ahí ha evolucionado de tal forma que se
+utiliza en muchos proyectos, es muy eficiente y veloz. Y realmente
+cumple con todos los objetivos planteados.</p>
+
+<p>En Git la mayoría de las operaciones que uno realiza son locales, en
+general no se necesita información de otra computadora para poder
+trabajar con Git. Si uno quiere ver el historial, simplemente lo leemos
+de nuestro disco, sin necesidad de conectarse a la red. Podemos movernos
+a cualquier versión y cualquier rama de trabajo de forma prácticamente
+instantánea.</p>
+
+<p>De esta forma se puede estar desconectado totalmente de redes externas y
+aún así seguir trabajando, apenas se pueda conectar al servidor se suben
+los cambios.</p>
+
+<h2>Los tres estados</h2>
+
+<p>Es importante saber cuáles son los tres estados principales de Git por
+los cuales se pasa constantemente en el ciclo de desarrollo.</p>
+
+<p>Tenemos el directorio de trabajo, el índice ( <em>staging</em> o <em>index</em> en
+inglés) y el repositorio. El directorio de trabajo es el proyecto en sí,
+en la versión y rama que estemos actualmente. Cada modificación que
+hagamos al proyecto se quedará en el directorio de trabajo, a menos que
+agreguemos dicha modificación al índice. El índice simplemente lleva la
+cuenta de que es lo que se agregará al repositorio. Finalmente se
+realiza un commit y todo lo marcado en el índice se agrega al
+repositorio de forma permanente.</p>
+
+<p>Resumiendo, un ciclo común de trabajo con Git es:</p>
+
+<ol>
+<li> Realizamos cambios en el proyecto.</li>
+<li> Marcamos los cambios en el índice.</li>
+<li> Hacemos un commit para realizar todos los cambios en el repositorio.</li>
+<li> Ir a 1.</li>
+</ol>
+
+<p>Sólo se agregarán al repositorio los archivos modificados, para el resto
+quedará un puntero/enlace a la última modificación del archivo.</p>
+
+<h2>Manos a la obra</h2>
+
+<p>La mayoría de las distribuciones de linux ofrecen alguna forma sencilla
+de instalar Git, así que no me voy a concentrar en esto. Para Windows
+existe el instalador <a href="http://code.google.com/p/msysgit/">msysgit</a>.</p>
+
+<p>Lo primero que conviene hacer es configurar unos datos globales, así
+todo lo que hacemos queda registrado correctamente:</p>
+
+<pre><code>git config --global user.name &quot;Nombre del usuario&quot;
+git config --global user.email &quot;Usuario@dom.com&quot;
+</code></pre>
+
+<p>Una vez que tenemos git instalado y configurado (lo principal al menos)
+ya podemos arrancar. Nos dirigimos a un directorio vacío y hacemos:</p>
+
+<pre><code>$git init
+Initialized empty Git repository in /home/diego/devel/blog/git/.git/
+</code></pre>
+
+<p>Si obtenemos el mensaje es porque todo está funcionando bien. El
+repositorio se inicializa en la carpeta .git.</p>
+
+<p>Ahora creemos un par de archivos, por ejemplo un README.</p>
+
+<pre><code>$ touch README
+</code></pre>
+
+<p>Utilizando <em>git status</em> podemos ver cuál es el estado en que se
+encuentran nuestros cambios respecto a git:</p>
+
+<pre><code>$ git status
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#   README
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</code></pre>
+
+<p>Obtenemos un mensaje con varias cosas nuevas. Primero dice “On branch
+master”, esto significa que estamos en la <em>rama maestra</em>, con Git
+podemos crear distintas ramas paralelas de trabajo (más sobre esto
+después), la rama inicial es la llamada “master”.</p>
+
+<p>Luego en “Untracked files:” nos indica los archivos que Git no está
+siguiendo, o sea, en el repositorio no existe ninguna versión de dicho
+archivo.</p>
+
+<p>Para agregar archivos al índice usamos <em>git add</em>, de esta forma:</p>
+
+<pre><code>$ git add README
+</code></pre>
+
+<p>Si ahora hacemos de nuevo:</p>
+
+<pre><code>$ git status
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+#
+#   new file:   README
+#
+</code></pre>
+
+<p>Vemos que la sección de “Untracked files” no está mas, y ahora está la
+sección “Changes to be commited”, donde está el archivo README que
+agregamos recién. Esto significa que si ahora hacemos un commit, este
+archivo se agregará al repositorio. Para hacer un commit utilizamos <em>git
+commit</em>:</p>
+
+<pre><code>$ git commit -m &quot;Primer commit&quot;
+[master (root-commit) 8b6bc3c] Primer commit
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README
+</code></pre>
+
+<p>El parámetro -m es para indicar un mensaje que quedará guardado en el
+commit, se recomienda utilizar una descripción adecuada del cambio
+realizado. Si no utilizamos -m Git nos abrirá un editor de texto para
+hacerlo. Se puede modificar el editor preferido de la siguiente forma:</p>
+
+<pre><code>$ git config --global core.editor vim
+</code></pre>
+
+<p>Si ahora hacemos de nuevo:</p>
+
+<pre><code>$ git status
+# On branch master
+nothing to commit (working directory clean)
+</code></pre>
+
+<p>Nos dice que no hay nada que hacer, está todo actualizado. Modifiquemos
+el README y agreguemos un archivo nuevo:</p>
+
+<pre><code>$ echo &quot;read me&quot; &gt;&gt; README
+$ touch LICENSE
+</code></pre>
+
+<p>Nuevamente:</p>
+
+<pre><code>$ git status
+# On branch master
+# Changed but not updated:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#   modified:   README
+#
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#   LICENSE
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre>
+
+<p>Ahora git nos marca que el archivo README ha sido modificado pero que no
+está en el índice, y que hay un archivo LICENSE nuevo.</p>
+
+<p>En el git add también se pueden usar comodines, así que podemos agregar
+todo de una:</p>
+
+<pre><code>git add *
+</code></pre>
+
+<p>Luego hacemos commit, y continuamos con el ciclo básico de desarrollo.
+De la misma manera, si removemos un archivo, git lo mostrará como tal:</p>
+
+<pre><code>$ rm LICENSE
+$ git status
+# On branch master
+# Changed but not updated:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#   deleted:    LICENSE
+#
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre>
+
+<p>Alternativamente podemos hacer el commit y al mismo tiempo mandar al
+índice todo lo modificado usando <em>git commit -a</em>.</p>
+
+<h2>Branches</h2>
+
+<p>Una de las grandes ventajas de Git es el manejo de las branches, son muy
+livianas (41 bytes, ya que en realidad son punteros), cómodas y fáciles
+de usar. Git está diseñado específicamente para lograr un buen trabajo
+utilizando branches.</p>
+
+<p>En general es cómodo trabajar en ramas paralelas. La rama master es
+adecuada para dejar con la última versión estable o que se considere
+importante.</p>
+
+<p>Trabajando así, el proceso cambia un poco:</p>
+
+<ol>
+<li> Creamos una nueva rama y nos movemos a ella.</li>
+<li> Trabajamos en esta nueva rama con lo que tengamos planeado para la
+próxima versión.</li>
+<li> Combinamos esta rama con la estable.</li>
+<li> Ir a 1.</li>
+</ol>
+
+<p>La ventaja de trabajar de esta manera es que llevamos un mejor registro
+de qué parte es estable y cuál de desarrollo. También se puede hacer una
+rama que llamamos estable y la master la dejamos de desarrollo.</p>
+
+<p>Puede haber personas interesadas en obtener distintas versiones del
+programa, algunas prefieren la última versión (aún así sea inestable), y
+otras prefieren tener la versión estable. Separando en branches estas
+características resulta muy cómodo para los usuarios que siguen el
+repositorio, cada uno sigue la que le interesa.</p>
+
+<p>Supongamos que estamos en nuestra rama de desarrollo y se reporta un bug
+muy importante en la rama estable, lo que podemos hacer es volver a la
+estable, crear una nueva rama para arreglar el bug y finalmente combinar
+esta rama con la estable. Después podemos volver a la rama de
+desarrollo, y <em>mezclar</em> los cambios que hicimos en la estable así
+tenemos el bug corregido en todos lados.</p>
+
+<p>Otro ejemplo que se da mucho es el de ramas experimentales, en estas
+ramas empezamos desarrollo con características que quizás no estaban
+previstas de antemano y que se quiere experimentar. Es conveniente no
+mezclar este tipo de desarrollo con las otras ramas, entonces si llega a
+no funcionar o no resultar como uno esperaba se puede abandonar con la
+menor pérdida posible.</p>
+
+<h3>Branches en Git</h3>
+
+<p>Para ver las branches usamos <em>git branch</em> sin más argumentos, obtenemos</p>
+
+<pre><code>$ git branch
+* master
+</code></pre>
+
+<p>Vemos que la única branch es la master, para crear una nueva usamos <em>git
+branch nombre</em> donde <em>nombre</em> es el nombre que le queremos dar a la
+branch, por ejemplo:</p>
+
+<pre><code>$ git branch fix
+$ git branch
+  fix
+* master
+</code></pre>
+
+<p>Primero con <em>git branch fix</em> creamos una nueva rama llamada <em>fix</em>, luego
+las mostramos y vemos que aparecen las dos (la master y la fix). La
+master lleva un asterisco adelante debido a que es en la que estamos
+trabajando actualmente. Para movernos a la nueva rama usamos <em>git
+checkout branch</em>, de la siguiente manera:</p>
+
+<pre><code>$ git checkout fix
+Switched to branch &#39;fix&#39;
+</code></pre>
+
+<p>Además del mensaje podemos verificar que estamos en la nueva rama:</p>
+
+<pre><code>$ git branch
+* fix
+  master
+</code></pre>
+
+<p>Como lo marca el asterisco. Alternativamente se puede crear una nueva
+rama y moverse a ella en un solo comando, haciendo <em>git checkout -b
+rama</em>.</p>
+
+<p>Ahora podemos realizar los cambios necesarios, hacer commit, y luego
+unir la rama master con la rama fix de la siguiente manera:</p>
+
+<pre><code>$ touch FIX
+$ git add FIX
+$ git commit -m &quot;Fixed.&quot;
+[fix 7868a0b] Fixed
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 FIX
+$ git checkout master
+Switched to branch &#39;master&#39;
+$ git merge fix
+Updating 625f3b4..7868a0b
+Fast forward
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 FIX
+</code></pre>
+
+<p>Utilizamos <em>git merge branch</em> para unir con otra rama, vemos que luego
+del merge Git nos dice “Fast forward”, esto significa que Git
+simplemente movió el puntero de la master hacia adelante. Después de
+crear en la rama fix nunca volvimos a la rama master, por lo tanto la
+rama fix estaba completamente por delante de la master, sin divergir.</p>
+
+<p>Notar que la rama fix no se eliminó:</p>
+
+<pre><code>$ git branch
+  fix
+* master
+</code></pre>
+
+<p>Sin embargo en las dos ramas existe el mismo contenido. Ahora ya
+podríamos borrar la rama fix, porque no la necesitamos, lo hacemos con
+<em>git branch -d branch</em>:</p>
+
+<pre><code>$ git branch -d fix
+Deleted branch fix (was 7868a0b).
+</code></pre>
+
+<h3>Resolución de conflictos</h3>
+
+<p>El merge no siempre sale limpio, puede haber conflictos que git no sabe
+como resolver, en este caso somos nosotros que tenemos que resolverlo.</p>
+
+<p>Supongamos que tenemos un repositorio vacío, y hacemos lo siguiente</p>
+
+<pre><code>$ touch &quot;README&quot;
+$ git add .
+$ git commit -m &quot;README&quot;
+$ git checkout -b otra
+$ echo &quot;read me 1&quot; &gt;&gt; README
+$ git commit -a -m &quot;Read me 1&quot;
+$ git checkout master
+$ echo &quot;read me 2&quot; &gt;&gt; README
+$ git commit -a -m &quot;Read me 2&quot;
+$ git merge otra
+Auto-merging README
+CONFLICT (content): Merge conflict in README
+Automatic merge failed; fix conflicts and then commit the result.
+$
+</code></pre>
+
+<p>Rápidamente, lo que hice acá fue: Crear un archivo README, agregarlo y
+hacer el commit (dentro de la rama master). Después creé una nueva rama
+y me moví a ella ( <em>git checkout -b otra</em>), dentro de esta rama
+modifiqué el archivo readme con el contenido “read me 1”.</p>
+
+<p>Luego volví a la rama master y modifiqué el archivo (en este momento
+vacío, ya que el cambio lo realicé en la otra rama) con otro contenido:
+“read me 2”. En este momento intenté hacer el merge, pero git me dice
+que hay conflictos, ya que cada archivo tiene contenido distintos y es
+en la misma línea del archivo (además, por el contexto, git no puede
+determinar como solucionarlo).</p>
+
+<p>Git nos dice que resolvamos el conflicto y agreguemos el archivo
+nuevamente. Podemos hacer git status en cualquier momento para ver qué
+archivos están en conflicto:</p>
+
+<pre><code>$ git status
+# On branch master
+# Unmerged paths:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
+#
+#   both modified:      README
+#
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre>
+
+<p>Si abrimos el archivo README vemos que Git agregó unos marcadores
+estándar para remarcar el conflicto:</p>
+
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+read me 2
+=======
+read me 1
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; otra
+</code></pre>
+
+<p>La primer parte antes del “=======” es el llamado “HEAD”, HEAD es un
+puntero que apunta a la rama en la que estamos actualmente, en este caso
+la master (recordar que las ramas son a la vez punteros). La siguiente
+parte es el contenido del archivo en la rama “otra”.</p>
+
+<p>Para solucionar el conflicto debemos reemplazar todo el bloque en
+cuestión (incluyendo los marcadores) por la resolución, por ejemplo,
+podríamos reemplazar todo por:</p>
+
+<pre><code>read me 1
+read me 2
+</code></pre>
+
+<p>Luego tenemos que agregar el archivo para que git termine el merge,
+utilizando <em>git add</em>:</p>
+
+<pre><code>$ git add README
+$ git status
+# On branch master
+# Changes to be committed:
+#
+#   modified:   README
+#
+$ git commit -m &quot;Merge con otra&quot;
+[master 355c14e] Merge con otra
+</code></pre>
+
+<p>Finalmente hice el commit para terminar de guardar los cambios en el
+repositorio. Para resolver los conflictos se pueden utilizar
+herramientas especializadas con el comando <em>git mergetool</em> (herramientas
+válidas son kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff,
+ecmerge, diffuse, tortoisemerge, opendiff, p4merge y araxis)</p>
+
+<h2>GitHub</h2>
+
+<p>Hasta ahora trabajamos sólo sobre el repositorio de forma local, pero se
+puede trabajar en un servidor. Uno puede montar su propio servidor, pero
+acá voy a mostrar como usar un servidor gratuito para subir repositorios
+públicos en Git.</p>
+
+<p><a href="https://github.com/">GitHub</a> es el servicio de hosting de repositorios
+de Git más utilizado actualmente. Una característica muy importante de
+GitHub es que nos permite hacer <em>forks</em> (una copia de un repositorio y
+automáticamente crear otro en GitHub) de manera muy sencilla, por medio
+de un simple click. La facilidad de realizar forks habilita un nuevo
+ciclo de trabajo colaborativo que resulta muy cómodo.</p>
+
+<p>Supongamos que hay un programa al que queremos colaborar y está alojado
+en GitHub, podemos hacerle un fork y de esta forma creamos nuestro
+propio repositorio en Github. Bajamos este repositorio a nuestra
+computadora para trabajarlo localmente. Creamos una nueva branch y
+realizamos el cambio que queremos hacer y subimos estos cambios al fork
+que hicimos en GitHub.</p>
+
+<p>Finalmente GitHub ofrece otra herramienta muy útil, el <em>pull request</em>,
+vamos al repositorio oficial y le damos click en <em>pull request</em>, de esta
+forma le estamos pidiendo al desarrollador oficial que haga un <em>pull</em>,
+esto es, que combine nuestro fork con su repositorio. El desarrollador
+luego puede hacer un pull local para probar nuestros cambios, y si le
+gusta lo agrega al repositorio oficial.</p>
+
+<h2>Branches remotas</h2>
+
+<p>Las branches remotas son ramas que marcan el estado de las ramas locales
+en los repositorios remotos. Su nombre completo tiene la forma
+(remote)/(branch), donde <em>remote</em> es un nombre especial de la rama
+remota y <em>branch</em> es en que rama se encuentra. Estas ramas las movemos
+con comandos específicos que requieren conectarse al servidor remoto.</p>
+
+<p>Para crear una rama remota utilizamos <em>git remote add remote server</em>.
+Donde remote es el nombre de la rama (sólo la parte (remote), la parte
+(branch) la deduce automáticamente de la rama actual) y <em>server</em> es el
+repositorio remoto de git.</p>
+
+<p>Es muy común nombrar el repositorio oficial con el nombre <em>origin</em> y así
+es como lo nombra git cuando hacemos <em>git clone</em> (ver más abajo).</p>
+
+<p>Si por ejemplo hacemos un repositorio nuevo en GitHub toma la forma:</p>
+
+<pre><code>git@github.com:(nombre de usuario)/(nombre del repositorio).git
+</code></pre>
+
+<p>Entonces, una vez que creamos nuestro repositorio en github, podemos
+agregar una rama remota al servidor de la siguiente manera:</p>
+
+<pre><code>$ git remote add origin git@github.com:(nombre de usuario)/(nombre del repositorio).git
+</code></pre>
+
+<p>De esta forma creamos una nueva rama remota llamada <em>origin</em> (podríamos
+ponerle cualquier nombre). Podemos ver estas ramas ejecutando <em>git
+remote</em> sin argumentos:</p>
+
+<pre><code>$ git remote
+origin
+</code></pre>
+
+<p>Ahora podemos usar <em>git push remote branch</em> para guardar los cambios de
+nuestro repositorio local a GitHub, de la siguiente forma:</p>
+
+<pre><code>$ git push origin master
+</code></pre>
+
+<p>Estamos haciendo un <em>push</em> de los cambios, en la rama master, al
+repositorio indicado por la rama remota <em>origin</em>.</p>
+
+<p>Nota: Cuando creas un nuevo repositorio en GitHub te muestra una receta
+para hacer lo que mostré acá, pero no explica bien que es cada cosa.</p>
+
+<p>Si hay alguien más trabajando en el mismo repositorio remoto, puede
+pasar que al hacer push haya conflictos, esto sucede porque alguien pudo
+haber actualizado el repositorio remoto y nosotros veníamos trabajando
+con contenido anterior. Para actualizar el contenido localmente
+utilizamos <em>git fetch remote</em>, donde <em>remote</em> es el nombre de la rama
+remota, por ejemplo:</p>
+
+<pre><code>$ git fetch origin
+</code></pre>
+
+<p>Nos va a actualizar la rama remota para estar a la misma altura que el
+servidor. Esta operación nunca modifica ninguna de nuestras ramas y es
+totalmente seguro, luego podría ser necesario hacer un merge para unir
+el trabajo agregado al servidor con el nuestro local, y finalmente un
+push para subir todo.</p>
+
+<p>Alternativamente se puede utilizar <em>git pull (remote) (branch)</em> para
+hacer un fetch y luego un merge de forma conjunta, por ejemplo:</p>
+
+<pre><code>$ git pull origin master
+</code></pre>
+
+<p>Es equivalente a:</p>
+
+<pre><code>$ git fetch origin
+$ git merge origin/master
+</code></pre>
+
+<p>Es decir, actualizamos las referencias del servidor <em>origin</em> y después
+hacemos un merge de la rama actual con la rama master en el servidor
+remoto.</p>
+
+<h2>Git clone</h2>
+
+<p>Se puede utilizar el comando <em>git clone</em> para clonar repositorios. Con
+git clone se clona un repositorio a un directorio local nuevo. Se
+utiliza generalmente la primera vez que descargamos un repositorio, ya
+que después podemos utilizar <em>git fetch</em> o <em>git pull</em> para descargar los
+cambios.</p>
+
+<p>La forma más común de usar <em>git clone</em> es <em>git clone (repositorio)
+(directorio)</em>, por ejemplo, si queremos descargar un repositorio que se
+encuentra en git://repositorio.com/repo.git/ en el directorio <em>repo</em>
+hacemos:</p>
+
+<pre><code>git clone git://repositorio.com/repo.git/ repo
+</code></pre>
+
+<h2>Git y SVN</h2>
+
+<p>Git se puede combinar con SVN (Subversion) de manera muy sencilla, ya
+que trae una herramienta oficial para esto. Esta herramienta resulta
+útil para descargar repositorios de SVN pero trabajar con git
+localmente, luego podemos subirlo al SVN por medio de git, y git se
+encarga de todo.</p>
+
+<p>Esta combinación nos permite además una forma muy sencilla de migrar de
+SVN a Git.</p>
+
+<p>No me quiero extender mucho con esto, sólo remarcar lo básico. Los
+comandos más comunes para trabajar con git svn son:</p>
+
+<p>Nota: Se necesita tener SVN instalado.</p>
+
+<p>Crear un repositorio de git a partir de uno SVN:</p>
+
+<pre><code>$ git svn clone http://svn-repositorio.com directorio_local
+</code></pre>
+
+<p>Obtener lo último del repositorio SVN:</p>
+
+<pre><code>$ git svn fetch
+$ git svn rebase
+</code></pre>
+
+<p>Subir los cambios al servidor SVN:</p>
+
+<pre><code>$ git svn dcommit
+</code></pre>
+
+<p>Los commits locales se realizan de la misma forma de siempre.</p>
+
+<h2>Conclusión</h2>
+
+<p>Git suele ser un poco más complicado de entender y aprender que otros
+sistemas de control de versión, pero sin dudas tiene sus ventajas.
+Muchas cosas se van aprendiendo usandolo y leyendo la documentación a
+medida que uno se enfrenta a algún problema, siempre hay alguna
+solución.</p>
+
+<p>Hay <strong>mucho</strong> más de git de lo que puse acá, pero con esto es suficiente
+para sentir comodidad al trabajar con git y para el uso cotidiano que un
+desarrollador promedio puede darle. Una forma de aprender realmente git
+es aprendiendo como funciona internamente, de esta forma uno logra
+entender todos los comandos y algunos <em>trucos</em> útiles.</p>
+
+<h2>Lecturas adicionales</h2>
+
+<p>Como lecturas adicionales para aprender más sobre git recomiendo:</p>
+
+<p><a href="http://progit.org/book/">Pro Git</a>: Un libro de libre distribución muy
+completo sobre Git, al final de la página pueden encontrar traducciones,
+incluyendo una traducción (incompleta en el momento de escribir esto) al
+español. Alternativamente se puede comprar una versión impresa.</p>
+
+<p><a href="http://www.kernel.org/pub/software/scm/git/docs/">Documentación
+oficial</a>: Obviamente
+también recomiendo la documentación oficial, especialmente para aprender
+comandos específicos y utilizarla como referencia.</p>
+
+<p><a href="http://gitref.org/index.html">gitref</a>: Esta página incluye un tutorial
+similar al que escribí yo aquí pero más completo.</p>
+
+<p><a href="http://www.gitready.com/">gitready</a>: Recetas y <em>tips</em> de git.</p>
+
+<p><a href="http://www.youtube.com/watch?v=4XpnKHJAok8">Tech talk</a>: Charla técnica
+de git por Linus Torvalds. Alrededor de una hora de duración.</p>
+
+<p><a href="http://www.youtube.com/watch?v=8dhZ9BXQgc4">Tech talk</a>: Charla técnica
+por Randal Schwartz. Según Randal esta es una charla sobre “¿Qué es
+git?”, mientras que la charla de Linus es sobre “¿Qué <strong>no</strong> es git?”.
+Alrededor de una hora de duración.</p>
+
+      </div>
+    </div>
+  </body>
+</html>
