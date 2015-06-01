@@ -81,7 +81,7 @@ int main()
 }
 </code></pre>
 
-<p>Here the line number 7 specifies a parallel region with two threads. One will be the master, and the other the slave. The whole block (lines 6 to 12) will be executed in parallel. The line number 10 will only be executed by the master thread. While the line number 11 will get executed by both threads. Running this will give different outputs, such as:</p>
+<p>Here the line number 7 specifies a parallel region with two threads. One will be the master, and the other the slave. The whole block (lines 8 to 12) will be executed in parallel. The line number 10 will only be executed by the master thread. While the line number 11 will get executed by both threads. Running this will give different outputs, such as:</p>
 
 <pre><code>MASTER! MASTER!
 Hello world
