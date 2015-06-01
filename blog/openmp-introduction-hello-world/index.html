@@ -62,7 +62,7 @@ int main()
 
 <h2>The master thread and the hello world example</h2>
 
-<p>When a new parallel region is accessed, the current running thread (called the <strong>master</strong> thread) forks the specified number of slave threads, so the region is executed by the master thread and the corresponding slaves. OpenMP provides a master directive, which specified a region that is only executed by the master thread. Let&#39;s see this in the following example:</p>
+<p>When a new parallel region is accessed, the current running thread (called the <strong>master</strong> thread) forks the specified number of slave threads, so the region is executed by the master thread and the corresponding slaves. OpenMP provides a master directive, which specifies a region that is only executed by the master thread. Let&#39;s see this in the following example:</p>
 
 <pre><code class="prettyprint linenums">#include &lt;omp.h&gt;
 #include &lt;iostream&gt;
