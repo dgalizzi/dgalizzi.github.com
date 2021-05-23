@@ -4,6 +4,7 @@ date: 2021-04-15T23:12:48-03:00
 draft: false
 ---
 
+Testing github action
 Average example implementation on C++:
 ``` cpp
 #include <omp.h>
