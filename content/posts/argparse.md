@@ -35,6 +35,19 @@ no version flag passed
 ```
 
 ### Short/Long parameter
+```fish
+#!/usr/bin/env fish
+
+argparse 'i/input=' -- $argv
+
+if set -q _flag_input
+  echo 'input parameter passed:'$_flag_input
+else
+  echo 'no input parameter passed'
+end
+```
+
+Result:
 ```sh
 $ ./argtest.fish -i foo
 input parameter passed:foo
