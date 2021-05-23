@@ -13,7 +13,16 @@ $ ./argtest.fish --version
 version 1.0.0
 $ ./argtest.fish
 no version flag passed
-</code></pre></div><h3 id=shortlong-parameter>Short/Long parameter</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>$ ./argtest.fish -i foo
+</code></pre></div><h3 id=shortlong-parameter>Short/Long parameter</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fish data-lang=fish><span style=color:#998;font-style:italic>#!/usr/bin/env fish
+</span><span style=color:#998;font-style:italic></span>
+argparse <span style=color:#b84>&#39;i/input=&#39;</span> -- <span style=color:teal>$argv</span>
+
+<span style=font-weight:700>if</span> <span style=font-weight:700>set</span> -q _flag_input
+  <span style=font-weight:700>echo</span> <span style=color:#b84>&#39;input parameter passed:&#39;</span><span style=color:teal>$_flag_input</span>
+<span style=font-weight:700>else</span>
+  <span style=font-weight:700>echo</span> <span style=color:#b84>&#39;no input parameter passed&#39;</span>
+<span style=font-weight:700>end</span>
+</code></pre></div><p>Result:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>$ ./argtest.fish -i foo
 input parameter passed:foo
 $ ./argtest.fish --input foo
 input parameter passed:foo
