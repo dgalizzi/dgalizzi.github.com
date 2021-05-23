@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://dgalizzi.github.io/favicon.ico><link rel=stylesheet href=/css/style.min.css><title>Neovim harpoon plugin 'on change' event</title></head><body><header id=banner><h3><a href=https://dgalizzi.github.io/>/home/dgalizzi</a></h3></header><main id=content><article><header id=post-header><h1>Neovim harpoon plugin 'on change' event</h1><div><time>May 23, 2021</time></div></header><p><a href=https://github.com/ThePrimeagen/harpoon>Harpoon</a> exposes an &lsquo;on&rsquo; event where you can subscribe callbacks to extend its functionality.</p><p>Here&rsquo;s the exposed &lsquo;on&rsquo; function at <a href=https://github.com/ThePrimeagen/harpoon/blob/55d5d808d6b96fc4f951d4c265c933dfb708411a/lua/harpoon/mark.lua#L353>harpoon&rsquo;s code</a> at the time of this writing</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>M.on <span style=font-weight:700>=</span> <span style=font-weight:700>function</span>(event, cb)
+    log.trace(<span style=color:#b84>&#34;on():&#34;</span>, event)
+    <span style=font-weight:700>if</span> <span style=font-weight:700>not</span> callbacks[event] <span style=font-weight:700>then</span>
+        log.debug(<span style=color:#b84>&#34;on(): no callbacks yet for&#34;</span>, event)
+        callbacks[event] <span style=font-weight:700>=</span> {}
+    <span style=font-weight:700>end</span>
+
+    table.insert(callbacks[event], cb)
+    log.debug(<span style=color:#b84>&#34;on(): All callbacks:&#34;</span>, callbacks)
+<span style=font-weight:700>end</span>
+</code></pre></div><p>And here&rsquo;s the <a href=https://github.com/ThePrimeagen/harpoon/blob/55d5d808d6b96fc4f951d4c265c933dfb708411a/lua/harpoon/mark.lua#L12>only event implemented</a> so far</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=font-weight:700>local</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>emit_changed</span>()
+    log.trace(<span style=color:#b84>&#34;_emit_changed()&#34;</span>)
+    <span style=font-weight:700>if</span> harpoon.get_global_settings().save_on_change <span style=font-weight:700>then</span>
+        harpoon.save()
+    <span style=font-weight:700>end</span>
+
+    <span style=font-weight:700>if</span> <span style=font-weight:700>not</span> callbacks[<span style=color:#b84>&#34;changed&#34;</span>] <span style=font-weight:700>then</span>
+        log.trace(<span style=color:#b84>&#34;_emit_changed(): no callbacks for &#39;changed&#39;, returning&#34;</span>)
+        <span style=font-weight:700>return</span>
+    <span style=font-weight:700>end</span>
+
+    <span style=font-weight:700>for</span> idx, cb <span style=font-weight:700>in</span> pairs(callbacks[<span style=color:#b84>&#34;changed&#34;</span>]) <span style=font-weight:700>do</span>
+        log.trace(string.format(
+            <span style=color:#b84>&#34;_emit_changed(): Running callback #%d for &#39;changed&#39;&#34;</span>,
+            idx
+        ))
+        cb()
+    <span style=font-weight:700>end</span>
+<span style=font-weight:700>end</span>
+</code></pre></div><p>You can look through the file to see where this event is emitted.</p><h3 id=go-to-last-harpooned-file>Go to last &lsquo;harpooned&rsquo; file</h3><p>On my workflow it is very common to work a lot back and forth between just two files, so I need a quick way to go back to the previous file. But, many times I also jump around multiple files in between looking for something.</p><p>Then, when I end with that, I want to go back to the previous <em>important</em> file, that is, the last file I was working on that is tracked by harpoon.</p><p>This can be done by subscribing to the on(&ldquo;change&rdquo;) event on harpoon and keeping track of the last harpoon index.</p><p>To get the harpoon index there&rsquo;s an exposed function call <a href=https://github.com/ThePrimeagen/harpoon/blob/55d5d808d6b96fc4f951d4c265c933dfb708411a/lua/harpoon/mark.lua#L348>get_current_index</a></p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>M.get_current_index <span style=font-weight:700>=</span> <span style=font-weight:700>function</span>()
+    log.trace(<span style=color:#b84>&#34;get_current_index()&#34;</span>)
+    <span style=font-weight:700>return</span> M.get_index_of(vim.fn.bufname(vim.fn.bufnr()))
+<span style=font-weight:700>end</span>
+</code></pre></div><p>Then, a solution could be the following</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=font-weight:700>local</span> harpoonMark <span style=font-weight:700>=</span> require(<span style=color:#b84>&#34;harpoon.mark&#34;</span>)
+
+MyHarpoonLastIndex <span style=font-weight:700>=</span> <span style=color:#099>0</span>
+harpoonMark.on(<span style=color:#b84>&#34;changed&#34;</span>, <span style=font-weight:700>function</span>()
+  lastIndex <span style=font-weight:700>=</span> harpoonMark.get_current_index()
+  <span style=font-weight:700>if</span> lastIndex <span style=font-weight:700>~=</span> <span style=font-weight:700>nil</span> <span style=font-weight:700>then</span>
+      MyHarpoonLastIndex <span style=font-weight:700>=</span> lastIndex
+  <span style=font-weight:700>end</span>
+<span style=font-weight:700>end</span>)
+</code></pre></div><p>This works by setting a callback on the changed event, and updating the <em>MyHarpoonLastIndex</em> variable by calling <em>get_current_index</em> everytime the changed event is emitted.</p><p>Finally, by doing</p><pre><code>:lua require(&quot;harpoon.ui&quot;).nav_file(MyHarpoonLastIndex)&lt;Cr&gt;
+</code></pre><p>you go back to the last file you were working on that is tracked by harpoon.</p></article></main><footer id=footer></footer></body></html>
