@@ -1,0 +1,16 @@
+github.com/LukasJoswiak/etch v0.0.0-20210411015426-3e7256c7ea7c h1:oQ+SEX1Kg4b9cfiqQV/9lbFq/E/hGXVOs7NUJlQGLO8=
+github.com/LukasJoswiak/etch v0.0.0-20210411015426-3e7256c7ea7c/go.mod h1:tdCjHyDbi/JUH+PwT7EuRAoTu1tIrDvTQgZ5UJLNe7Q=
+github.com/dgalizzi/etch v0.0.0-20210411015426-3e7256c7ea7c h1:YjPwzcqbD05pikG7PbjWWpo+dkaO8gqT9OOrnJV22c0=
+github.com/dgalizzi/etch v0.0.0-20210411015426-3e7256c7ea7c/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
+github.com/dgalizzi/etch v0.0.0-20210416035322-939b5043c966 h1:YilM8BfVkYD+f+baKDdY+s+aEnHnh4q+VXGcw6AlymY=
+github.com/dgalizzi/etch v0.0.0-20210416035322-939b5043c966/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
+github.com/dgalizzi/etch v0.0.0-20210416035639-b9bd963c02c1 h1:LKidXgaliJw3jpj7fNniaqBVfoZSYvdt8VrdFKmMFLI=
+github.com/dgalizzi/etch v0.0.0-20210416035639-b9bd963c02c1/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
+github.com/dgalizzi/etch v0.0.0-20210416232058-61aa38ba7a2c h1:3OJ9dDras71okImklB5Qzjfg3Si3yx2f2KfWTEs3x8Y=
+github.com/dgalizzi/etch v0.0.0-20210416232058-61aa38ba7a2c/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
+github.com/dgalizzi/etch v0.0.0-20210416233933-31bce2695a98 h1:4D7Qx9rZhcZVxi0QItUoqU9476NVuDfbK5PK5MB5SxU=
+github.com/dgalizzi/etch v0.0.0-20210416233933-31bce2695a98/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
+github.com/dgalizzi/etch v0.0.0-20210416235927-1a171d23ff41 h1:k18o06u8kYFN6ndUW/DVyFCN7++MaWrEgVz950zcaBk=
+github.com/dgalizzi/etch v0.0.0-20210416235927-1a171d23ff41/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
+github.com/dgalizzi/etch v0.0.0-20210417000133-20f1762572a5 h1:95yzetEHuFm+ixtXx6u1QCs2+1q7ANEdAuA6cyZ08oQ=
+github.com/dgalizzi/etch v0.0.0-20210417000133-20f1762572a5/go.mod h1:Z2dOstOnJ5lGR5MjTZksVcORxioImUzkQicvOOgZEqQ=
