@@ -4,8 +4,6 @@ date: 2021-05-23
 draft: false
 ---
 
-# Fish shell argparse examples
-
   While the [documentation](https://fishshell.com/docs/current/cmds/argparse.html) is pretty good, it doesn't have many examples.
   
   So I wrote some basic examples for reference.
