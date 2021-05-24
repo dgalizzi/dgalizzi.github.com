@@ -40,5 +40,5 @@ harpoonMark.on(<span style=color:#b84>&#34;changed&#34;</span>, <span style=font
       MyHarpoonLastIndex <span style=font-weight:700>=</span> lastIndex
   <span style=font-weight:700>end</span>
 <span style=font-weight:700>end</span>)
-</code></pre></div><p>This works by setting a callback on the changed event, and updating the <em>MyHarpoonLastIndex</em> variable by calling <em>get_current_index</em> everytime the changed event is emitted.</p><p>Finally, by doing</p><pre><code>:lua require(&quot;harpoon.ui&quot;).nav_file(MyHarpoonLastIndex)&lt;Cr&gt;
+</code></pre></div><p>This works by setting a callback on the changed event, and updating the <em>MyHarpoonLastIndex</em> variable by calling <em>get_current_index</em> everytime the changed event is emitted.</p><pre><code>:lua require(&quot;harpoon.ui&quot;).nav_file(MyHarpoonLastIndex)&lt;Cr&gt;
 </code></pre><p>you go back to the last file you were working on that is tracked by harpoon.</p></article></main><footer id=footer></footer></body></html>
