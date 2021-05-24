@@ -75,7 +75,6 @@ end)
 ```
 This works by setting a callback on the changed event, and updating the *MyHarpoonLastIndex* variable by calling *get_current_index* everytime the changed event is emitted.
 
-Finally, by doing
 ```
 :lua require("harpoon.ui").nav_file(MyHarpoonLastIndex)<Cr>
 ```
