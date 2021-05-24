@@ -35,7 +35,7 @@
 
 MyHarpoonLastIndex <span style=font-weight:700>=</span> <span style=color:#099>0</span>
 harpoonMark.on(<span style=color:#b84>&#34;changed&#34;</span>, <span style=font-weight:700>function</span>()
-  lastIndex <span style=font-weight:700>=</span> harpoonMark.get_current_index()
+  <span style=font-weight:700>local</span> lastIndex <span style=font-weight:700>=</span> harpoonMark.get_current_index()
   <span style=font-weight:700>if</span> lastIndex <span style=font-weight:700>~=</span> <span style=font-weight:700>nil</span> <span style=font-weight:700>then</span>
       MyHarpoonLastIndex <span style=font-weight:700>=</span> lastIndex
   <span style=font-weight:700>end</span>
