@@ -67,7 +67,7 @@ local harpoonMark = require("harpoon.mark")
 
 MyHarpoonLastIndex = 0
 harpoonMark.on("changed", function()
-  lastIndex = harpoonMark.get_current_index()
+  local lastIndex = harpoonMark.get_current_index()
   if lastIndex ~= nil then
       MyHarpoonLastIndex = lastIndex
   end
